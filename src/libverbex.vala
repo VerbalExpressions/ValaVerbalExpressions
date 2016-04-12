@@ -3,13 +3,20 @@ using GLib;
 namespace Verbex {
 	public class VerbalExpression {
 		private string prefixes;
-		private string sources;
+		private StringBuilder internal_builder;
+
+		private string sources
+		{
+			get{
+				return internal_builder.str;
+			}
+		};
 		private string suffixes;
 		private uint32 pattern_flags;
 
 		public Regex regex {
 			get {
-				return new Regex((prefixes+sources+suffixes), pattern_flags);
+				return new Regex(this.to_string(), pattern_flags);
 			}
 			
 		}
@@ -20,13 +27,13 @@ namespace Verbex {
 
 		public VerbalExpression() {
 			this.prefixes = "";
-			this.sources = "";
+			this.internal_builder = new StringBuilder();
 			this.suffixes = "";
 			this.pattern_flags = RegexCompileFlags.MULTILINE;
 		}
 
-		public string sanitize(string val) {
-			return Regex.escape_string(value);
+		public string sanitize(string test_str) {
+			return Regex.escape_string(test_str);
 		}
 
 		public bool test(string test_str) {
@@ -35,6 +42,12 @@ namespace Verbex {
 
 		public bool matches(string test_str) {
 			return regex.match(test_str);
+		}
+
+		public MatchInfo get_match_info(string test_str){
+			MatchInfo retval;
+			regex.match(test_str, 0, ref retval);
+			return retval;
 		}
 
 		public string to_string() {
@@ -56,7 +69,7 @@ namespace Verbex {
 		 */
 		public VerbalExpression add(string regex_str, bool sanitize = true) {
 			var val = sanitize ? sanitize(regex_str) : regex_str;
-			source += val;
+			internal_builder.append(val);
 			return this;
 		}
 
@@ -90,7 +103,7 @@ namespace Verbex {
 		}
 
 		public VerbalExpression anything_but(string val, bool sanitize = true) {
-			var rval sanitize ? sanitize(val) : val;
+			var rval = sanitize ? sanitize(val) : val;
 			return add(@"([^$rval]*)", false);
 		}
 
@@ -99,7 +112,7 @@ namespace Verbex {
 		}
 
 		public VerbalExpression something_but(string val, bool sanitize = true) {
-			var rval sanitize ? sanitize(val) : val;
+			var rval = sanitize ? sanitize(val) : val;
 			return add(@"([^$rval]+)", false);
 		}
 
@@ -130,8 +143,8 @@ namespace Verbex {
 		}
 
 		public VerbalExpression any_of(string val, bool sanitize = true) {
-			var rval sanitize ? sanitize(val) : val;
-			return add(@"([{$rval}])", false);
+			var rval = sanitize ? sanitize(val) : val;
+			return add(@"([$rval])", false);
 		}
 
 		public VerbalExpression any(string val) {
@@ -140,26 +153,26 @@ namespace Verbex {
 
 
 		public VerbalExpression multiple(string val, bool sanitize = true) {
-			var rval sanitize ? sanitize(val) : val;
+			var rval = sanitize ? sanitize(val) : val;
 			return add(@"($rval)+", false);
 		}
 
 		public VerbalExpression or(string val, bool sanitize = true) {
 			prefixes += "(";
 			suffixes = ")" + suffixes;
-
 			source += ")|(";
 
 			return add(val, sanitize);
 		}
-
-		public VerbalExpression repeat_previous(int n) {
-			return add(@"{$n}", false);
+/*
+		public VerbalExpression repeat_previous(int times) {
+			return add(@"{$times}", false);
 		}
 
-		public VerbalExpression repeat_previous(int from, int to {
+		public VerbalExpression repeat_previous_in_range(int from, int to) {
 			return add(@"{$from,$to}", false);
 		}
+		*/
 
 		public VerbalExpression add_modifier(char modifier) {
 			switch (modifier) {
@@ -207,7 +220,7 @@ namespace Verbex {
 			return this;
 		}
 
-		public VerbalExpression as_one_line(bool enable) {
+		public VerbalExpression as_one_line(bool enable = true) {
 			if (enable)	{
 				remove_modifier('m');
 			} else {

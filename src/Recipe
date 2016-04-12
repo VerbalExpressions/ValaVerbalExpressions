@@ -1,0 +1,10 @@
+libraries.libverbex{
+	
+	sources= \
+		libverbex.vala \
+
+	packages = \
+		glib-2.0 >= 2.42.0 \
+
+	gir-namespace= Verbex
+}

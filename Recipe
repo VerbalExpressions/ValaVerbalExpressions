@@ -1,0 +1,16 @@
+project {
+	name = libverbex 
+	major = 0
+	minor = 1
+	patch = 0
+	version = $(project.major).$(project.minor).$(project.patch)
+	minimum-bake-version = 0.1.49
+}
+data.meta { 
+	files = README.md \
+			ChangeLog \
+			AUTHORS \
+			COPYING \
+
+	install = false 
+}
