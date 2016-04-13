@@ -1,0 +1,9 @@
+.built
+libverbex-$(project.major).$(project.minor).$(project.patch).tar.bz2
+libverbex_$(project.major).$(project.minor).$(project.patch).orig.tar.gz
+libverbex_$(project.major).$(project.minor).$(project.patch)-0.debian.tar.gz
+libverbex_$(project.major).$(project.minor).$(project.patch)-0.dsc
+libverbex_$(project.major).$(project.minor).$(project.patch)-0_source.changes
+libverbex_$(project.major).$(project.minor).$(project.patch)-0_amd64.deb
+libverbex-$(project.major).$(project.minor).$(project.patch).tar.gz
+libverbex-$(project.major).$(project.minor).$(project.patch).tar.xz

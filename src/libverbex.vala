@@ -5,20 +5,16 @@ namespace Verbex {
 		private string prefixes;
 		private StringBuilder internal_builder;
 
-		private string sources
-		{
+		private string sources {
 			get{
 				return internal_builder.str;
 			}
-		};
+		}
 		private string suffixes;
-		private uint32 pattern_flags;
+		private RegexCompileFlags pattern_flags;
 
-		public Regex regex {
-			get {
-				return new Regex(this.to_string(), pattern_flags);
-			}
-			
+		public Regex get_regex() throws RegexError {
+			return new Regex(this.to_string(), pattern_flags);
 		}
 
 		public static VerbalExpression verbex() {
@@ -41,12 +37,21 @@ namespace Verbex {
 		}
 
 		public bool matches(string test_str) {
-			return regex.match(test_str);
+			try {
+				return get_regex().match(test_str);
+			} catch (RegexError  e) {
+				return false;
+			}
 		}
 
-		public MatchInfo get_match_info(string test_str){
-			MatchInfo retval;
-			regex.match(test_str, 0, ref retval);
+		public MatchInfo? get_match_info(string test_str){
+			MatchInfo? retval;
+			
+			try {
+				get_regex().match(test_str, 0, out retval);
+			} catch (RegexError  e) {
+				return null;
+			}
 			return retval;
 		}
 
@@ -67,8 +72,8 @@ namespace Verbex {
 		 * @param sanitize - wether to sanitize regex_str or not (dafaults to true)
 		 * @return this the same VerbalExpression instance (for chaining purposes)
 		 */
-		public VerbalExpression add(string regex_str, bool sanitize = true) {
-			var val = sanitize ? sanitize(regex_str) : regex_str;
+		public VerbalExpression add(string regex_str, bool cleanse = true) {
+			var val = cleanse ? sanitize(regex_str) : regex_str;
 			internal_builder.append(val);
 			return this;
 		}
@@ -83,8 +88,8 @@ namespace Verbex {
 			return this;
 		}
 
-		public VerbalExpression then(string val, bool sanitize = true) {
-			var rval = sanitize ? sanitize(val) : val;
+		public VerbalExpression then(string val, bool cleanse = true) {
+			var rval = cleanse ? sanitize(val) : val;
 			return add(@"(?:$rval)", false);
 		}
 
@@ -92,8 +97,8 @@ namespace Verbex {
 			return then(val);
 		}
 
-		public VerbalExpression maybe(string val, bool sanitize = true) {
-			var rval = sanitize ? sanitize(val) : val;
+		public VerbalExpression maybe(string val, bool cleanse = true) {
+			var rval = cleanse ? sanitize(val) : val;
 			return add(@"($rval)?", false);
 			
 		}
@@ -102,8 +107,8 @@ namespace Verbex {
 			return add("(.*)", false);
 		}
 
-		public VerbalExpression anything_but(string val, bool sanitize = true) {
-			var rval = sanitize ? sanitize(val) : val;
+		public VerbalExpression anything_but(string val, bool cleanse = true) {
+			var rval = cleanse ? sanitize(val) : val;
 			return add(@"([^$rval]*)", false);
 		}
 
@@ -111,19 +116,15 @@ namespace Verbex {
 			return add("(.+)", false);
 		}
 
-		public VerbalExpression something_but(string val, bool sanitize = true) {
-			var rval = sanitize ? sanitize(val) : val;
+		public VerbalExpression something_but(string val, bool cleanse = true) {
+			var rval = cleanse ? sanitize(val) : val;
 			return add(@"([^$rval]+)", false);
 		}
 
-		public VerbalExpression replace(string val) throws RegexError {
-			try{
-				regex.replace()
-			} catch (RegexError e){
-				throw e;
-			}
-
-			return this;
+		public string replace(string haystack, string needle, bool cleanse = true) throws RegexError {
+			var rval = cleanse ? sanitize(haystack) : haystack;
+			var dst = cleanse ? sanitize(needle) : needle;
+			return get_regex().replace(rval, rval.length, 0, dst);
 		}
 
 		public VerbalExpression line_break() {
@@ -142,27 +143,27 @@ namespace Verbex {
 			return add("""\w+""", false);
 		}
 
-		public VerbalExpression any_of(string val, bool sanitize = true) {
-			var rval = sanitize ? sanitize(val) : val;
+		public VerbalExpression any_of(string val, bool cleanse = true) {
+			var rval = cleanse ? sanitize(val) : val;
 			return add(@"([$rval])", false);
 		}
 
 		public VerbalExpression any(string val) {
-			return any_of(value);
+			return any_of(val);
 		}
 
 
-		public VerbalExpression multiple(string val, bool sanitize = true) {
-			var rval = sanitize ? sanitize(val) : val;
+		public VerbalExpression multiple(string val, bool cleanse = true) {
+			var rval = cleanse ? sanitize(val) : val;
 			return add(@"($rval)+", false);
 		}
 
-		public VerbalExpression or(string val, bool sanitize = true) {
+		public VerbalExpression or(string val, bool cleanse = true) {
 			prefixes += "(";
 			suffixes = ")" + suffixes;
-			source += ")|(";
+			internal_builder.append(")|(");
 
-			return add(val, sanitize);
+			return add(val, cleanse);
 		}
 /*
 		public VerbalExpression repeat_previous(int times) {

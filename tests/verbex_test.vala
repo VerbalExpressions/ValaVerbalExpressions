@@ -1,5 +1,5 @@
 using GLib;
-
+using Valadate;
 
 namespace Verbex {
 	[Test (name="Generic usability test")]
@@ -55,7 +55,10 @@ namespace Verbex {
 		[Test (name="Test that word() actually gives the right number of words")]
 		public void word_count_test() {
 			var verbex = VerbalExpression.verbex().word();
-			MatchInfo match_info =  verbex.regex.get_match_info("four simple words here");
+			MatchInfo? match_info =  verbex.get_match_info("four simple words here");
+			if (match_info == null) {
+				assert_not_reached();
+			}
 			assert_true(4 == (match_info.get_match_count() -1));
 		}
 	}
