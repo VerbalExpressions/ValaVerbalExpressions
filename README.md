@@ -55,4 +55,4 @@ Please keep the code style, whitespace changes that do not adhere to the coding 
 ## Licensing
 
 The code in this project is licensed under MIT license. Because this is Vala code, however, a binary including 
-this code will en up following the LGPL v2.1, as the GLib license implies.
+this code will end up following the LGPL v2.1, as the GLib license implies.
