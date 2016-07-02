@@ -1,0 +1,28 @@
+libraries.libverbex-test{
+    sources= \
+        ../src/libverbex.vala \
+        add_modifier_test.vala \
+        add_test.vala \
+        end_of_line_test.vala \
+        maybe_test.vala \
+        multiple_test.vala \
+        or_test.vala \
+        remove_modifier_test.vala \
+        sanitize_test.vala \
+        something_but_test.vala \
+        something_test.vala \
+        start_of_line_test.vala \
+        then_test.vala \
+        verbex_test.vala \
+        with_any_case_test.vala
+        
+    compile-flags= -pie -shared
+    
+    link-flags= -fPIE -rdynamic
+    
+    vala-packages= valadate-1.0
+    
+    debug=true
+    
+
+}

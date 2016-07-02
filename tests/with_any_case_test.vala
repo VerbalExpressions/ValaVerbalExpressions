@@ -15,7 +15,7 @@ namespace Verbex {
 		}
 
 		[Test (name="Test for disabling with_any_case()")]
-		public void test_with_any_case() {
+		public void test_without_any_case() {
 			var verbex = VerbalExpression.verbex().add("www")
 				.with_any_case(false);
 

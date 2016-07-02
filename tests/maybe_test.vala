@@ -11,9 +11,9 @@ namespace Verbex {
 			var verbex = VerbalExpression.verbex()
 				.start_of_line()
 				.then("a")
-				.maybe("b")
+				.maybe("b");
 
-			assert_true(verbex.matches("a")):
+			assert_true(verbex.matches("a"));
 		}
 	}
 }

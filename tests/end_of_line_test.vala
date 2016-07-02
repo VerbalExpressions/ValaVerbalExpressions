@@ -15,7 +15,7 @@ namespace Verbex {
 
 		[Test (name="Test that end_of_line disallows non-strict matching")]
 		public void test_end_of_line_wrong_matching() {
-			vvar verbex = VerbalExpression.verbex().add(".com").end_of_line();
+			var verbex = VerbalExpression.verbex().add(".com").end_of_line();
 
 			assert_false(verbex.matches("www.google.com/"));
 		}

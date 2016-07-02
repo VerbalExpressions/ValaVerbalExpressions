@@ -8,7 +8,7 @@ namespace Verbex {
 	
 		[Test (name="Test that sanitize() truly escapes characters")]
 		public void test_sanitize() {
-			var verbEx = VerbalExpression.verbex();
+			var verbex = VerbalExpression.verbex();
 			string val = "*+?";
 			string expected = """\*\+\?""";
 

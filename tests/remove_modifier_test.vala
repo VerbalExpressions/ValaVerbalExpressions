@@ -25,10 +25,10 @@ namespace Verbex {
 
 			var verbex  = VerbalExpression.verbex().add("First").anything().then("Second");
 
-			assert_true(verbex.matches(test_string));
+			assert_true(verbex.matches(test_str));
 
 			verbex.add_modifier('s');
-			assert_false(verbex.matches(test_string));
+			assert_false(verbex.matches(test_str));
 		}
 
 		[Test (name="Test that removing 'x' as modifier disables whitespace ignore")]

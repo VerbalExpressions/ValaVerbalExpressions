@@ -33,7 +33,7 @@ namespace Verbex {
 		[Test (name="Test that replace() behaves after initialization")]
 		public void replace_throw_test() {
 			try {
-				VerbalExpression.verbex().replace("filler text");
+				VerbalExpression.verbex().replace("filler text", "text");
 			} catch (RegexError err) {
 				assert_not_reached();
 			}
