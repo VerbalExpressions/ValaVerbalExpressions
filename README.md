@@ -1,18 +1,18 @@
 # ValaVerbalExpressions
-Vala Verbal Expressions made easy
+Regular expressions in Vala made easy
 
 
 ## Installing / Getting started
 
-To build this library, you need [Bake](http:launchpad.net/bake), and Vala >= 0.28
+To build this library, you need [Stew](https://github.com/desiderantes/stew), and Vala >= 0.28
 
 ```shell
 git clone https://github.com/VerbalExpressions/ValaVerbalExpressions.git
 cd ValaVerbalExpressions/
-bake install
+stew install
 ```
 
-To install system-wide, follow the Bake help pages
+To install system-wide, follow the Stew help pages
 
 ## Developing
 
@@ -42,7 +42,6 @@ This library uses [Valadate](https://github.com/chebizarro/valadate) for its tes
 Patches accepted for the following features
 * Capture/subgroups
 * Efficient expression composition
-
 
 
 ## Contributing
