@@ -2,21 +2,21 @@ using GLib;
 
 namespace Verbex {
 
-	[Test (name="Test for end_of_line() edge cases")]
-	public class EndOfLineTest : Valadate.Framework.TestCase {
+	public int main (string[] args) {
+		Test.init (ref args);
 
-		[Test (name="Test that end_of_line() properly matches")]
-		public void test_end_of_line_matching() {
-			var verbex = VerbalExpression.verbex().add(".com").end_of_line();
+		Test.add_func ("/end_of_line/matches", () => {
+			var verbex = VerbalExpression.verbex ().add (".com").end_of_line ();
 
-			assert_true(verbex.matches("www.google.com"));
-		}
+			assert_true (verbex.matches ("www.google.com"));
+		});
 
-		[Test (name="Test that end_of_line disallows non-strict matching")]
-		public void test_end_of_line_wrong_matching() {
-			vvar verbex = VerbalExpression.verbex().add(".com").end_of_line();
+		Test.add_func ("/end_of_line/not_matches", () => {
+			var verbex = VerbalExpression.verbex ().add (".com").end_of_line ();
 
-			assert_false(verbex.matches("www.google.com/"));
-		}
+			assert_false (verbex.matches ("www.google.com"));
+		});
+
+		return Test.run ();
 	}
 }

@@ -2,24 +2,23 @@ using GLib;
 
 namespace Verbex {
 
-	[Test(name="Test for something() edge cases")]
-	public class SomethingTest : Valadate.Framework.TestCase {
+	public int main (string[] args) {
 
-		[Test(name="Test that something() does not match an empty string")]
-		public void test_something_empty_string() {
-			var verbex = VerbalExpression.verbex().something();
+		Test.init (ref args);
+		Test.add_func ("/something/empty_string", () => {
+			var verbex = VerbalExpression.verbex ().something ();
 			
-			assert_false(verbex.matches(""));
-		}
+			assert_false (verbex.matches (""));
+		});
 
 		
-		[Test (name="Test that something() works as expected")]
-		public void test_something()
-		{
-			var verbex = VerbalExpression.verbex().something();
+		Test.add_func ("/something", () => {
+			var verbex = VerbalExpression.verbex ().something ();
 			
-			assert_true(verbex.matches("Hello Rato"));
-		}
+			assert_true (verbex.matches ("Hello Rato"));
+		});
+
+		return Test.run ();
 	}
 
 }

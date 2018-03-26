@@ -2,15 +2,15 @@ using GLib;
 
 namespace Verbex {
 
-	[Test (name="")]
-	public class OrTest : Valadate.Framework.TestCase {
+	public int main (string[] args) {
 
-		[Test (name="Test regular or() usage")]
-		public void test_or() {
-			var verbex = VerbalExpression.verbex().add("vala").or("genie");
+		Test.init (ref args);
+		Test.add_func ("/regular", () => {
+			var verbex = VerbalExpression.verbex ().add ("vala").or ("genie");
 
-			assert_true(verbex.matches("vala"));
-			assert_true(verbex.matches("genie"));
-		}
+			assert_true (verbex.matches ("vala"));
+			assert_true (verbex.matches ("genie"));
+		});
+		return Test.run ();
 	}
 }
