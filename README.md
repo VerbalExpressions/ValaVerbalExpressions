@@ -14,7 +14,7 @@ meson ..
 ninja build
 ```
 
-To install system-wide, follow the Stew help pages
+To install system-wide, follow the [Meson help pages](https://mesonbuild.com/Installing.html)
 
 ## Developing
 
