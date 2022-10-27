@@ -1,41 +1,40 @@
 using GLib;
-using Valadate;
 
 namespace Verbex {
 
-	[Test (name="Modifier removal test")]
-	public class RemoveModifierTest : Valadate.Framework.TestCase {
-		[Test (name="Test that removing 'i' as modifier enables case sensitivity")]
-		public void test_i_modifier_addition() {
-			var verbex = VerbalExpression.verbex().add("test_string").add_modifier('i');
+	public int main (string[] args) {
 
-			assert_false(verbex.matches("TEST_STRING"));
-		}
+		Test.init (ref args);
 
-		[Test (name="Test that removing 'm' as modifier disables multiline")]
-		public void test_m_modifier_addition() {
-			var verbex = VerbalExpression.verbex().add_modifier('m');
+		Test.add_func ("/modifier/i_modifier_removal", () => {
+			var verbex = VerbalExpression.verbex ().add ("test_string").remove_modifier ('i');
 
-			assert_false(verbex.test("test \n string"));
-		}
+			assert_false (verbex.matches ("TEST_STRING"));
+		});
 
-		[Test (name="Test that removing 's' as modifier disables single line")]
-		public void test_s_modifier_addition() {
-			string test_str = "First\nSecond";
+		Test.add_func ("/modifier/m_modifier_removal", () => {
+			var verbex = VerbalExpression.verbex ().remove_modifier ('m');
 
-			var verbex  = VerbalExpression.verbex().add("First").anything().then("Second");
+			assert_false (verbex.test ("test \n string"));
+		});
 
-			assert_true(verbex.matches(test_str));
+		Test.add_func ("/modifier/s_modifier_removal", () => {
+			string test_string = "First\nSecond";
 
-			verbex.add_modifier('s');
-			assert_false(verbex.matches(test_str));
-		}
+			var verbex  = VerbalExpression.verbex ().add ("First").anything ().then ("Second");
 
-		[Test (name="Test that removing 'x' as modifier disables whitespace ignore")]
-		public void test_x_modifier_addition() {
-			var verbex = VerbalExpression.verbex().add("test string").add_modifier('x');
+			assert_true (verbex.matches (test_string));
 
-			assert_false(verbex.matches("test string #comment"));
-		}
+			verbex.add_modifier ('s');
+			assert_false (verbex.matches (test_string));
+		});
+
+		Test.add_func ("/modifier/x_modifier_removal", () => {
+			var verbex = VerbalExpression.verbex ().add ("test string").remove_modifier ('x');
+
+			assert_false (verbex.matches ("teststring"));
+		});
+
+		return Test.run ();
 	}
 }

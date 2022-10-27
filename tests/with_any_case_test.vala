@@ -1,25 +1,23 @@
 using GLib;
-using Valadate;
 
 namespace Verbex {
 
-	[Test(name="Test for with_any_case() edge cases")]
-	public class WithAnyCaseTest : Valadate.Framework.TestCase {
+	public int main (string[] args) {
 
-		[Test (name="Test for regular with_any_case() usage")]
-		public void test_with_any_case() {
-			var verbex = VerbalExpression.verbex().add("www")
-				.with_any_case();
+		Test.init (ref args);
+		Test.add_func ("/with_any_case/enabled", () => {
+			var verbex = VerbalExpression.verbex ().add ("www")
+				.with_any_case ();
 
-			assert_true(verbex.matches("WWW"));
-		}
+			assert_true (verbex.matches ("WWW"));
+		});
 
-		[Test (name="Test for disabling with_any_case()")]
-		public void test_without_any_case() {
-			var verbex = VerbalExpression.verbex().add("www")
-				.with_any_case(false);
+		Test.add_func ("/with_any_case/disabled", () => {
+			var verbex = VerbalExpression.verbex ().add ("www")
+				.with_any_case (false);
 
-			assert_false(verbex.matches("WWW"));
-		}
+			assert_false (verbex.matches ("WWW"));
+		});
+		return Test.run ();
 	}
 }
