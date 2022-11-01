@@ -10,8 +10,8 @@ git clone https://github.com/VerbalExpressions/ValaVerbalExpressions.git
 cd ValaVerbalExpressions/
 mkdir build
 cd build
-meson ..
-ninja build
+meson setup
+ninja
 ```
 
 To install system-wide, follow the [Meson help pages](https://mesonbuild.com/Installing.html)
@@ -39,6 +39,7 @@ To install system-wide, follow the [Meson help pages](https://mesonbuild.com/Ins
 Patches accepted for the following features
 * Capture/subgroups
 * Efficient expression composition
+* Anything else (?)
 
 
 ## Contributing
