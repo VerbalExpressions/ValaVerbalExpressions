@@ -30,7 +30,8 @@ namespace Verbex {
 
 		Test.add_func ("/replace", () => {
 			try {
-				VerbalExpression.verbex ().replace ("","filler text");
+				var res = VerbalExpression.verbex ().add ("world").replace ("hello world", "vala");
+				assert_true (res == "hello vala");
 			} catch (RegexError err) {
 				assert_not_reached ();
 			}
@@ -49,10 +50,10 @@ namespace Verbex {
 
 		Test.add_func ("/word", () => {
 			var verbex = VerbalExpression.verbex ().word ();
-			MatchInfo match_info =  verbex.get_match_info ("four simple words here");
-			assert_true (4 == (match_info.get_match_count ()));
+			assert_true (verbex.count ("four simple words here") == 4);
 		});
 
 		return Test.run ();
 	}
 }
+

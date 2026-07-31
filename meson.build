@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2017 - 2018 Mario Daniel Ruiz Saaavedra <desiderantes93@gmail.com>
+# Copyright (c) 2017 Mario Daniel Ruiz Saaavedra <desiderantes93@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -20,26 +20,30 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-project ('libverbex', ['vala', 'c'],
-	license: 'MIT',
-	version: '0.0.2')
-	
-glib = dependency('glib-2.0', version: '>=2.48')
-gobject = dependency('gobject-2.0', version: '>=2.48')
-gio = dependency('gio-2.0', version: '>=2.48')
-gobject_introspection = dependency('gobject-introspection-1.0')
-g_ir_compiler = find_program('g-ir-compiler', required: false)
+project(
+    'libverbex',
+    ['vala', 'c'],
+    license: 'MIT',
+    version: '0.1.0',
+    meson_version: '>=1.10.0',
+)
 
-deps = [
-	glib,
-	gobject,
-	gobject_introspection
-]
-	
-subdir ('src')
+gnome = import('gnome')
+
+glib_version = '2.70'
+
+glib = dependency('glib-2.0', version: f'>=@glib_version@')
+gobject = dependency('gobject-2.0', version: f'>=@glib_version@')
+gio = dependency('gio-2.0', version: f'>=@glib_version@')
+gobject_introspection = dependency('gobject-introspection-1.0', required: false)
+
+deps = [glib, gobject]
+
+subdir('src')
 
 if get_option('enable_tests')
-	subdir ('tests')
+    subdir('tests')
 endif
+
 
 
