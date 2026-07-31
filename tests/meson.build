@@ -27,6 +27,7 @@ foreach name : verbex_tests
             name,
             name + '.vala',
             dependencies: [glib, gobject, gio, libverbex_dep],
+            c_args: ['-Wno-unused-but-set-variable', '-Wno-unused-variable'],
         ),
         env: ['G_TEST_SRCDIR=' + meson.current_source_dir()],
     )

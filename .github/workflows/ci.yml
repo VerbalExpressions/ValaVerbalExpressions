@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-26.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            meson \
+            ninja-build \
+            valac \
+            libglib2.0-dev \
+            libgirepository1.0-dev \
+            gobject-introspection
+
+      - name: Configure Meson
+        run: meson setup build -Dwerror=true --fatal-meson-warnings
+
+      - name: Build library
+        run: meson compile -C build
+
+      - name: Run unit tests
+        run: meson test -C build --print-errorlogs
